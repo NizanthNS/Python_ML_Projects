@@ -1,0 +1,19 @@
+Parameter,Value
+Input signal shape,"(N, 178, 1)  (178 time samples, 1 channel)"
+Input feature vector shape,"(N, 7)"
+Sampling frequency,173.61 Hz (4097 points / 23.6 s per Bonn recording; each sample = 178 points ~ 1.03 s)
+Frequency bands (Hz),"delta 0.5-4, theta 4-8, alpha 8-13, beta 13-30, gamma 30-60"
+FFT features (5),"relative band power = sum of |FFT|^2 in the band / total power (DC excluded), using rfft of the z-scored 178-point signal"
+Spectral entropy (1),"H = -sum p_k log2 p_k, p_k = normalised power spectrum"
+Amplitude entropy (1),Shannon entropy of a 16-bin amplitude histogram of the signal
+CNN branches,"Conv1D(kernel 3) and Conv1D(kernel 1), 8 filters each, BatchNorm, ReLU; concatenated; MaxPool(2)"
+Bi-LSTM units (per direction),28
+Attention dimension,41
+Learning rate (Adam),0.00080
+Dropout rate,0.456
+Feature fusion,Attention context vector (2 x units) concatenated with Dense(16) of the 7 FFT/entropy features
+Classifier,"Dense(32, ReLU) -> Dense(2, SoftMax)"
+Loss / batch size / max epochs,"Sparse categorical cross-entropy / 64 / 20 (early stopping, patience 4)"
+Class imbalance,balanced class weights
+Fox Optimization,"population 5, 4 iterations, fitness = validation loss after 3 epochs on 3000 training samples; search ranges: filters 8-32, units 16-64, attention dim 16-64, lr 1e-4 to 1e-2 (log), dropout 0.1-0.5; runtime 383 s"
+Total trainable parameters,15101

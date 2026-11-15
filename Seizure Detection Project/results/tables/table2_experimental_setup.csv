@@ -1,0 +1,10 @@
+Item,Configuration
+Processor,"Intel64 Family 6 Model 154 Stepping 3, GenuineIntel"
+CPU cores used,12
+RAM,16.8 GB
+GPU,None (CPU only)
+Operating system,Windows-11-10.0.26300-SP0
+Python,3.13.17
+TensorFlow / Keras,2.21.0 / 3.15.1
+scikit-learn,1.9.1
+NumPy / Pandas,2.5.4 / 3.1.1

@@ -1,0 +1,6 @@
+Original class,Meaning,Samples,Target,Correctly classified
+1,Seizure activity,345,Seizure,0.9681
+2,Tumour area,343,Non-seizure,0.9621
+3,Healthy area,338,Non-seizure,0.9822
+4,Eyes closed,367,Non-seizure,0.9973
+5,Eyes open,332,Non-seizure,1.0

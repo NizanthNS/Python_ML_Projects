@@ -1,0 +1,5 @@
+Split,Samples,Seizure (class 1),Non-seizure (classes 2-5),Original class 1,Original class 2,Original class 3,Original class 4,Original class 5
+Train (70%),8050,1610,6440,1610,1597,1620,1588,1635
+Validation (15%),1725,345,1380,345,360,342,345,333
+Test (15%),1725,345,1380,345,343,338,367,332
+Total,11500,2300,9200,2300,2300,2300,2300,2300
