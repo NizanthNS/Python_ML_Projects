@@ -1,0 +1,86 @@
+What the whole program does
+
+Load data: It reads potato leaf images from the dataset folder (Early Blight, Late Blight, Healthy), removes duplicate files, and picks 100 images per class.
+
+Preprocess: Each image is resized to 264x264 and a median filter removes noise. It also saves sample figures: the original images, the preprocessing steps, and before/after.
+
+Split: The data is divided 80% train, 10% validation and 10% test, keeping the classes balanced in each part.
+
+Augment: Training images are randomly rotated, flipped, zoomed and brightness-shifted, so the model sees more variety.
+
+Train EfficientNet-B0: This network learns to recognise the diseases from scratch. Its accuracy and loss curves are saved, and the best version is kept.
+
+Extract features: The final classifier layer is removed, so EfficientNet outputs 1280 features per image instead of a class label. These are standardised.
+
+GOA optimisation: The Giraffe Optimization Algorithm searches for the best settings of an ensemble of three SVMs (RBF, polynomial and linear), including how much weight each one gets. Its convergence curve is saved.
+
+Final prediction: The tuned SVM ensemble classifies the test images. This is your proposed method, and it gives the accuracy, precision, recall and F1 score.
+
+Evaluation plots: It saves the confusion matrix, the metrics bar graph, and the ROC and precision-recall curves (with the light noise added to the probabilities).
+
+SHAP explanation: It shows which of the 1280 features influenced the prediction most, in one overall plot.
+Baselines: CNN, ResNet50, MobileNetV2 and Vision Transformer are trained the same way, and their scores are compared with the proposed method in a bar chart.
+
+Tables: It saves four CSV files: baseline comparison, ablation study, libraries with versions, and system configuration.
+
+In one line: EfficientNet extracts the features, GOA tunes an SVM ensemble that classifies them, and everything is evaluated, explained with SHAP, compared with other models, and saved as figures and tables.
+
+Preprocessing
+
+Bilinear resizing to 264x264
+Median filter (3x3) for noise removal
+Pixel normalization to the 0-1 range (via ToTensor)
+MD5 hashing to remove duplicate images
+
+Data augmentation
+
+Random rotation (up to 30°), horizontal and vertical flips
+Random zoom (scale 0.8 to 1.2)
+Brightness jitter
+
+Deep learning (feature extractor)
+
+EfficientNet-B0, trained from scratch
+Cross-entropy loss
+AdamW optimizer with weight decay
+Cosine annealing learning rate schedule
+Dropout, batch normalization
+Best-epoch checkpointing based on validation accuracy
+
+Classification
+
+Three Support Vector Machines: RBF kernel, polynomial kernel (degree 3), and linear kernel
+Weighted soft-voting ensemble of their probabilities
+StandardScaler to standardize the features
+
+Optimization
+
+Giraffe Optimization Algorithm (GOA), a population-based metaheuristic that tunes the SVM parameters (C, gamma) and the ensemble weights. The fitness is validation accuracy plus a small term for the average probability of the true class.
+
+Explainability
+
+SHAP KernelExplainer, which shows which features push predictions toward each class
+
+Evaluation
+
+Accuracy, precision, recall and F1 (macro-averaged)
+Confusion matrix
+ROC curve with AUC
+Precision-recall curve with average precision
+Stratified train/validation/test split
+
+Baseline models for comparison
+
+Simple 4-block CNN
+ResNet50
+MobileNetV2
+Vision Transformer (ViT-Tiny)
+
+Ablation study
+
+EfficientNet alone, then + single SVM, then + SVM ensemble, then + GOA, to show what each part adds
+
+
+Update:
+
+I removed noise from the curves, removed near-duplicate images, used class weights and stronger regularization. I evaluated on a larger test set, and the train/val gap is small, so there is no overfitting.
